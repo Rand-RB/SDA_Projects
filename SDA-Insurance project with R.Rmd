@@ -1,0 +1,64 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+library(readr)
+data <- read_csv("Desktop/SwedishMotorInsurance.csv")
+View(data)
+```
+```{r}
+summary(data)
+```
+```{r}
+payment_result <-lm(formula =data$Payment ~ data$Insured + data$Claims,data = data)
+payment_result
+```
+
+
+```{r}
+summary(payment_result)
+```
+```{r}
+plot(data$Claims, data$Payment, main = "Correlation between payment and  number of claims ", xlab = "number of claims", ylab= "Payment", col = "green")
+abline(lm(formula =data$Payment ~ data$Claims ,data = data), col = "purple", lwd = 3)
+```
+
+```{r}
+plot(data$Insured, data$Payment, main = "Correlation between payment and number of insured policy ", xlab = "Insuredinsured policy", ylab= "Payment", col = "blue")
+abline(lm(formula =data$Payment ~ data$Insured ,data = data), col = "red", lwd = 3)
+```
+
+
+```{r}
+data$Payment <- na.omit(data$Payment)
+summary(data)
+```
+```{r}
+payment_corr <- lm(formula = data$Payment ~ data$Kilometres +data$Zone + data$Bonus + data$Make + data$Insured+ data$Claims, data = data)
+payment_corr
+```
+```{r}
+summary(payment_corr)
+```
+```{r}
+library(corrplot)
+cor_matrix <-cor(data)
+corrplot(cor_matrix, method = "color")
+```
+```{r}
+lt <-lm(formula = data$Payment ~ data$Kilometres,data = data)
+lt
+```
+```{r}
+claim_corr <- lm(formula = data$Claims ~ data$Kilometres +data$Zone + data$Bonus + data$Make + data$Insured, data = data)
+claim_corr
+```
+
+```{r}
+summary(claim_corr)
+
+```

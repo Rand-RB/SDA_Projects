@@ -1,0 +1,47 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+#import the data set
+library(readr)
+data <- read_csv("Desktop/internet_datasetSDA.csv")
+View(data)
+```
+```{r}
+library(plyr)
+data$Continent <- sapply(data$Continent,factor)
+data$Sourcegroup <- sapply(data$Sourcegroup,factor)
+str(data)
+```
+
+
+```{r}
+summary(data)
+```
+```{r}
+cor.test(data$Visits, data$Uniquepageviews)
+```
+
+
+```{r}
+plot(data$Visits, data$Uniquepageviews, main = "Correlation Between Visits and Unique Pageview", xlab = "Visits", ylab= "Unique page views", col = "blue")
+abline(lm(data$Visits ~data$Uniquepageviews), col = "red", lwd = 3)
+```
+
+```{r}
+sub_data <- data[, sapply(data, is.numeric)]
+sub_data
+```
+
+```{r}
+library(corrplot)
+cor(sub_data)
+forPlot <-cor(sub_data)
+corrplot(forPlot,method ="color")
+```
+```{r}
+count(data$Sourcegroup)
+```
+
